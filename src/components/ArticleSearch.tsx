@@ -103,7 +103,7 @@ export function ArticleSearch() {
               ))}
               {results.length === 0 && (
                 <div className="p-4 text-center text-gray-500">
-                  No articles found for "{query}"
+                  No articles found for &quot;{query}&quot;
                 </div>
               )}
             </div>

@@ -155,7 +155,7 @@ export default async function ArticlePage({ params }: Props) {
       {article.quote && (
         <blockquote className="border-l-4 border-blue-500 pl-6 my-8 bg-gray-50 p-6 rounded-r-lg">
           <p className="text-xl italic text-gray-800 mb-2">
-            "{article.quote.text}"
+            &quot;{article.quote.text}&quot;
           </p>
           <cite className="text-gray-600 not-italic">
             — {article.quote.author}

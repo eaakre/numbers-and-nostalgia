@@ -19,11 +19,12 @@
 //   return Math.ceil(words / wordsPerMinute);
 // }
 
+import { SanityImage } from "@/types/sanityImage";
 import { client } from "./sanity.client"; // adjust path if needed
 import imageUrlBuilder from "@sanity/image-url";
 
 const builder = imageUrlBuilder(client);
 
-export function urlFor(source: any) {
+export function urlFor(source: SanityImage) {
   return builder.image(source);
 }
