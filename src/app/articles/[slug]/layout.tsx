@@ -2,10 +2,12 @@ import { client } from "@/lib/sanity.client";
 import { Metadata } from "next";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+
   const article = await client.fetch(
     `
     *[_type == "article" && slug.current == $slug][0] {
@@ -17,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       }
     }
   `,
-    { slug: params.slug }
+    { slug }
   );
 
   if (!article) {
