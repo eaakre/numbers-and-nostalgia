@@ -6,7 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 // ArticleCard component for the listing
-function ArticleCard({ article }: { article: Article }) {
+export function ArticleCard({
+  article,
+  isRelatedArticle = false,
+}: {
+  article: Article;
+  isRelatedArticle?: boolean;
+}) {
   return (
     <article className="bg-secondary rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
       {/* Hero Image */}
@@ -62,34 +68,36 @@ function ArticleCard({ article }: { article: Article }) {
         )}
 
         {/* Author and Date */}
-        <div className="flex items-center justify-between text-sm text-secondary-foreground">
-          <div className="flex items-center space-x-3">
-            {article.author.avatar && (
-              <Image
-                src={article.author.avatar.asset.url}
-                alt={article.author.name}
-                width={32}
-                height={32}
-                className="rounded-full"
-              />
-            )}
-            <div>
-              <Link
-                href={`/authors/${article.author.slug.current}`}
-                className="font-medium hover:text-accent transition-colors"
-              >
-                {article.author.name}
-              </Link>
+        {!isRelatedArticle && (
+          <div className="flex items-center justify-between text-sm text-secondary-foreground">
+            <div className="flex items-center space-x-3">
+              {article.author.avatar && (
+                <Image
+                  src={article.author.avatar.asset.url}
+                  alt={article.author.name}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              )}
+              <div>
+                <Link
+                  href={`/authors/${article.author.slug.current}`}
+                  className="font-medium hover:text-accent transition-colors"
+                >
+                  {article.author.name}
+                </Link>
+              </div>
             </div>
+            <time dateTime={article.publishedAt}>
+              {new Date(article.publishedAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </time>
           </div>
-          <time dateTime={article.publishedAt}>
-            {new Date(article.publishedAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </time>
-        </div>
+        )}
 
         {/* Tags */}
         {article.tags && article.tags.length > 0 && (

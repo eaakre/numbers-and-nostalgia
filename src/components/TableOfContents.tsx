@@ -1,20 +1,28 @@
 "use client";
 import { useState, useEffect } from "react";
 import { PortableTextBlock, PortableTextSpan } from "@portabletext/types";
-import { slugify } from "@/lib/slugify"; // shared helper
 
 type TOCItem = {
   id: string;
   text: string;
   level: number;
+  children?: TOCItem[];
 };
+
+function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/[^\w]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
 
 export function TableOfContents({ body }: { body: PortableTextBlock[] }) {
   const [tocItems, setTocItems] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
-    const headings: TOCItem[] = body
+    // Step 1: Extract headings from Portable Text
+    const flatHeadings: TOCItem[] = body
       .filter(
         (block) =>
           block._type === "block" &&
@@ -34,11 +42,41 @@ export function TableOfContents({ body }: { body: PortableTextBlock[] }) {
           id: slugify(text),
           text,
           level: block.style === "h1" ? 1 : block.style === "h2" ? 2 : 3,
+          children: [],
         };
       });
 
-    setTocItems(headings);
+    // Step 2: Nest headings
+    const nested: TOCItem[] = [];
+    let lastH1: TOCItem | null = null;
+    let lastH2: TOCItem | null = null;
 
+    flatHeadings.forEach((heading) => {
+      if (heading.level === 1) {
+        nested.push(heading);
+        lastH1 = heading;
+        lastH2 = null;
+      } else if (heading.level === 2) {
+        if (lastH1) {
+          lastH1.children?.push(heading);
+          lastH2 = heading;
+        } else {
+          nested.push(heading); // no h1 before
+        }
+      } else if (heading.level === 3) {
+        if (lastH2) {
+          lastH2.children?.push(heading);
+        } else if (lastH1) {
+          lastH1.children?.push(heading);
+        } else {
+          nested.push(heading); // orphan
+        }
+      }
+    });
+
+    setTocItems(nested);
+
+    // Step 3: Observe active headings
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -58,25 +96,32 @@ export function TableOfContents({ body }: { body: PortableTextBlock[] }) {
 
   if (tocItems.length === 0) return null;
 
+  const renderItems = (items: TOCItem[]) => (
+    <ul className="space-y-2">
+      {items.map((item) => (
+        <li key={item.id}>
+          <a
+            href={`#${item.id}`}
+            className={`block text-sm transition-colors hover:primary-hover ${
+              activeId === item.id
+                ? "text-accent font-medium"
+                : "text-secondary-foreground"
+            }`}
+          >
+            {item.text}
+          </a>
+          {item.children && item.children.length > 0 && (
+            <div className="ml-4">{renderItems(item.children)}</div>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+
   return (
-    <nav className="bg-white p-6 rounded-lg shadow-sm border">
-      <h4 className="font-semibold text-gray-900 mb-4">Table of Contents</h4>
-      <ul className="space-y-2">
-        {tocItems.map((item) => (
-          <li key={item.id}>
-            <a
-              href={`#${item.id}`}
-              className={`block text-sm transition-colors hover:text-blue-600 ${
-                activeId === item.id
-                  ? "text-blue-600 font-medium"
-                  : "text-gray-600"
-              } ${item.level > 1 ? `ml-${(item.level - 1) * 4}` : ""}`}
-            >
-              {item.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+    <nav className="bg-secondary p-6 rounded-lg shadow-sm border">
+      <h4 className="font-semibold mb-4">Table of Contents</h4>
+      {renderItems(tocItems)}
     </nav>
   );
 }

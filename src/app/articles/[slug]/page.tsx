@@ -8,6 +8,7 @@ import { CustomPortableTextComponents } from "@/components/PortableTextComponent
 import { CTAButton } from "@/components/CTAButton";
 import EmblaGallery from "@/components/EmblaGallery";
 import { TableOfContents } from "@/components/TableOfContents";
+import { ArticleCard } from "../page";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -148,6 +149,7 @@ export default async function ArticlePage({ params }: Props) {
       )}
 
       <TableOfContents body={article.body} />
+
       {/* Article Body */}
       <div className="prose prose-lg max-w-none mb-8">
         <PortableText
@@ -215,9 +217,13 @@ export default async function ArticlePage({ params }: Props) {
         <section className="mt-12 pt-8 border-t">
           <h3 className="text-2xl font-bold mb-6">Related Articles</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* {article.relatedArticles.map((related) => (
-              <ArticleCard key={related._id} article={related} />
-            ))} */}
+            {article.relatedArticles.map((related) => (
+              <ArticleCard
+                key={related._id}
+                article={related}
+                isRelatedArticle={true}
+              />
+            ))}
           </div>
         </section>
       )}
