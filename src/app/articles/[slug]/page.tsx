@@ -87,7 +87,7 @@ export default async function ArticlePage({ params }: Props) {
 
   console.log({ article });
   return (
-    <article className="max-w-6xl mx-auto px-4 py-8">
+    <article className="max-w-6xl mx-auto p-4">
       {/* Article Header */}
       <header className="mb-8">
         {/* <div className="mb-4">
@@ -99,7 +99,7 @@ export default async function ArticlePage({ params }: Props) {
         </h1>
 
         {article.intro && (
-          <p className="text-xl text-gray-600 leading-relaxed mb-6">
+          <p className="text-xl text-secondary-foreground leading-relaxed mb-6">
             {article.intro}
           </p>
         )}
@@ -117,11 +117,11 @@ export default async function ArticlePage({ params }: Props) {
           <div>
             <Link
               href={`/authors/${article.author.slug.current}`}
-              className="font-semibold hover:text-blue-600 transition-colors"
+              className="font-semibold text-secondary-foreground hover:primary-hover transition-colors"
             >
               {article.author.name}
             </Link>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-secondary-foreground">
               {new Date(article.publishedAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
@@ -155,11 +155,11 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Featured Quote */}
       {article.quote && (
-        <blockquote className="border-l-4 border-blue-500 pl-6 my-8 bg-gray-50 p-6 rounded-r-lg">
-          <p className="text-xl italic text-gray-800 mb-2">
+        <blockquote className="border-l-4 border-secondary-foreground pl-6 my-8 bg-secondary p-6 rounded-r-lg">
+          <p className="text-xl italic text-secondary-foreground mb-2">
             &quot;{article.quote.text}&quot;
           </p>
-          <cite className="text-gray-600 not-italic">
+          <cite className="not-italic">
             — {article.quote.author}
             {article.quote.authorTitle && (
               <span className="text-sm">, {article.quote.authorTitle}</span>
@@ -195,7 +195,9 @@ export default async function ArticlePage({ params }: Props) {
                   </div>
                 )}
                 {item.caption && (
-                  <p className="text-sm text-gray-600">{item.caption}</p>
+                  <p className="text-sm text-secondary-foreground">
+                    {item.caption}
+                  </p>
                 )}
               </div>
             ))}
@@ -205,9 +207,9 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Conclusion */}
       {article.conclusion && (
-        <div className="bg-blue-50 p-6 rounded-lg my-8">
+        <div className="bg-secondary p-6 rounded-lg my-8">
           <h3 className="text-xl font-semibold mb-3">Conclusion</h3>
-          <p className="text-gray-700">{article.conclusion}</p>
+          <p className="text-secondary-foreground">{article.conclusion}</p>
         </div>
       )}
 
@@ -229,7 +231,7 @@ export default async function ArticlePage({ params }: Props) {
             <Link
               key={tag.slug.current}
               href={`/tags/${tag.slug.current}`}
-              className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors"
+              className="px-3 py-1 bg-primary-foreground hover:bg-secondary-foreground rounded-full text-sm text-primary transition-colors"
             >
               #{tag.name}
             </Link>

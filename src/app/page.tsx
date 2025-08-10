@@ -2,6 +2,7 @@ import { client } from "@/lib/sanity.client";
 import Link from "next/link";
 import Image from "next/image";
 import { Article, Category } from "@/types/article";
+import { Typography } from "@/components/ui/Typography";
 
 export default async function HomePage() {
   const articles: Article[] = await client.fetch(`
@@ -32,32 +33,36 @@ export default async function HomePage() {
   const regularArticles = articles.filter((a) => !a.featured).slice(0, 6);
 
   return (
-    <main className="max-w-6xl mx-auto p-4 space-y-12">
+    <main className="max-w-6xl mx-auto p-4">
       <header>
-        <h1 className="sr-only">Numbers & Nostalgia</h1>
+        <Typography variant="h1" className="sr-only">
+          Numbers & Nostalgia
+        </Typography>
       </header>
 
-      {/* Featured Articles */}
-      {featuredArticles.length > 0 && (
+      <div className="space-y-12">
+        {/* Featured Articles */}
+        {featuredArticles.length > 0 && (
+          <section>
+            <Typography variant="h2">Featured Stories</Typography>
+            <div className="grid md:grid-cols-2 gap-8">
+              {featuredArticles.map((article) => (
+                <FeaturedArticleCard key={article._id} article={article} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Regular Articles */}
         <section>
-          <h2 className="text-3xl font-bold mb-8">Featured Stories</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {featuredArticles.map((article) => (
-              <FeaturedArticleCard key={article._id} article={article} />
+          <Typography variant="h2">Latest Articles</Typography>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {regularArticles.map((article) => (
+              <ArticleCard key={article._id} article={article} />
             ))}
           </div>
         </section>
-      )}
-
-      {/* Regular Articles */}
-      <section>
-        <h2 className="text-3xl font-bold mb-8">Latest Articles</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {regularArticles.map((article) => (
-            <ArticleCard key={article._id} article={article} />
-          ))}
-        </div>
-      </section>
+      </div>
     </main>
   );
 }
@@ -67,7 +72,7 @@ function FeaturedArticleCard({ article }: { article: Article }) {
   return (
     <Link
       href={`/articles/${article.slug.current}`}
-      className="group block bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+      className="group block bg-foreground rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
     >
       {article.hero && (
         <div className="aspect-video relative overflow-hidden">
@@ -83,21 +88,31 @@ function FeaturedArticleCard({ article }: { article: Article }) {
         </div>
       )}
       <div className="p-6">
-        <h3 className="text-2xl text-black font-bold mb-3 group-hover:text-blue-600 transition-colors">
+        <Typography
+          variant="h3"
+          color="background"
+          className="font-bold mb-3 group-hover:text-secondary transition-colors"
+        >
           {article.title}
-        </h3>
+        </Typography>
         {article.intro && (
-          <p className="text-gray-600 mb-4 line-clamp-3">{article.intro}</p>
+          <Typography
+            variant="p"
+            color="background-secondary"
+            className="mb-4 line-clamp-3"
+          >
+            {article.intro}
+          </Typography>
         )}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-500">
+            <Typography variant="small" color="background-secondary">
               by {article.author.name}
-            </span>
+            </Typography>
           </div>
-          <time className="text-sm text-gray-500">
-            {new Date(article.publishedAt).toLocaleDateString()}
-          </time>
+          <Typography variant="small" color="background-secondary">
+            <time>{new Date(article.publishedAt).toLocaleDateString()}</time>
+          </Typography>
         </div>
       </div>
     </Link>
@@ -125,17 +140,29 @@ function ArticleCard({ article }: { article: Article }) {
         </div>
       )}
       <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+        <Typography
+          variant="h3"
+          color="background"
+          className="font-bold mb-3 group-hover:text-secondary transition-colors"
+        >
           {article.title}
-        </h3>
+        </Typography>
         {article.intro && (
-          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+          <Typography
+            variant="p"
+            color="background-secondary"
+            className="mb-4 line-clamp-3"
+          >
             {article.intro}
-          </p>
+          </Typography>
         )}
         <div className="flex items-center justify-between text-xs text-gray-500">
-          <span>{article.author.name}</span>
-          <time>{new Date(article.publishedAt).toLocaleDateString()}</time>
+          <Typography variant="small" color="background-secondary">
+            by {article.author.name}
+          </Typography>
+          <Typography variant="small" color="background-secondary">
+            <time>{new Date(article.publishedAt).toLocaleDateString()}</time>
+          </Typography>
         </div>
       </div>
     </Link>
@@ -154,8 +181,7 @@ function CategoryBadge({
 
   return (
     <span
-      className={`inline-block bg-white/90 backdrop-blur-sm rounded-full font-medium ${sizeClasses}`}
-      style={{ color: category.color || "#3B82F6" }}
+      className={`inline-block bg-primary-foreground text-primary backdrop-blur-sm rounded-full font-medium ${sizeClasses}`}
     >
       {category.name}
     </span>

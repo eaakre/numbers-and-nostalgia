@@ -3,6 +3,7 @@ import Link from "next/link";
 import { urlFor } from "../lib/utils";
 import { PortableTextComponents } from "@portabletext/react";
 import { CTAButton } from "./CTAButton";
+import { Typography } from "./ui/Typography";
 
 export const CustomPortableTextComponents: PortableTextComponents = {
   types: {
@@ -21,7 +22,7 @@ export const CustomPortableTextComponents: PortableTextComponents = {
             />
           </div>
           {value.caption && (
-            <figcaption className="text-center text-sm text-gray-600 mt-2 italic">
+            <figcaption className="text-center text-sm text-secondary-foreground mt-2 italic">
               {value.caption}
             </figcaption>
           )}
@@ -31,7 +32,7 @@ export const CustomPortableTextComponents: PortableTextComponents = {
 
     callout: ({ value }) => {
       const typeStyles = {
-        info: "bg-blue-50 border-blue-200 text-blue-800",
+        info: "bg-secondary-foreground border-primary-foreground text-secondary",
         warning: "bg-yellow-50 border-yellow-200 text-yellow-800",
         success: "bg-green-50 border-green-200 text-green-800",
         error: "bg-red-50 border-red-200 text-red-800",
@@ -54,7 +55,13 @@ export const CustomPortableTextComponents: PortableTextComponents = {
             </span>
             <div>
               {value.title && (
-                <h4 className="font-semibold mb-1">{value.title}</h4>
+                <Typography
+                  variant="h4"
+                  color="background-secondary"
+                  className="mb-1"
+                >
+                  {value.title}
+                </Typography>
               )}
               <p className="text-sm">{value.content}</p>
             </div>
@@ -68,12 +75,12 @@ export const CustomPortableTextComponents: PortableTextComponents = {
         return null;
 
       return (
-        <div className="my-6 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+        <div className="my-6 p-4 rounded-lg border-l-4 border-secondary">
           <div className="flex items-center space-x-2">
-            <span className="text-blue-600">🔗</span>
+            <span>🔗</span>
             <Link
               href={`/${value.reference._type}s/${value.reference.slug.current}`}
-              className="text-blue-600 hover:text-blue-800 font-medium"
+              className="text-secondary-foreground hover:primary-hover font-medium"
             >
               {value.linkText || value.reference.title}
             </Link>
@@ -93,7 +100,7 @@ export const CustomPortableTextComponents: PortableTextComponents = {
           />
         </div>
         {value.caption && (
-          <figcaption className="text-center text-sm text-gray-600 mt-2 italic">
+          <figcaption className="text-center text-sm text-secondary-foreground mt-2 italic">
             {value.caption}
           </figcaption>
         )}
@@ -111,27 +118,29 @@ export const CustomPortableTextComponents: PortableTextComponents = {
 
   block: {
     h1: ({ children }) => (
-      <h1 className="text-4xl font-bold mt-12 mb-6 text-gray-900">
+      <Typography variant="h1" className="mt-12">
         {children}
-      </h1>
+      </Typography>
     ),
     h2: ({ children }) => (
-      <h2 className="text-3xl font-bold mt-10 mb-4 text-gray-900">
+      <Typography variant="h2" className="mt-10">
         {children}
-      </h2>
+      </Typography>
     ),
     h3: ({ children }) => (
-      <h3 className="text-2xl font-semibold mt-8 mb-3 text-gray-900">
+      <Typography variant="h3" className="mt-8">
         {children}
-      </h3>
+      </Typography>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-gray-300 pl-6 my-6 italic text-lg text-gray-700">
+      <blockquote className="border-l-4 border-gray-300 pl-6 my-6 italic text-lg text-secondary-foreground">
         {children}
       </blockquote>
     ),
     normal: ({ children }) => (
-      <p className="mb-4 leading-relaxed text-gray-700">{children}</p>
+      <Typography variant="p" color="secondary" className="mt-4">
+        {children}
+      </Typography>
     ),
   },
 
@@ -141,7 +150,7 @@ export const CustomPortableTextComponents: PortableTextComponents = {
         href={value.href}
         target={value.blank ? "_blank" : "_self"}
         rel={value.blank ? "noopener noreferrer" : undefined}
-        className="text-blue-600 hover:text-blue-800 underline"
+        className="text-secondary-foreground hover:primary-hover underline"
       >
         {children}
       </Link>
