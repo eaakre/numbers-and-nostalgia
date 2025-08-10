@@ -151,7 +151,7 @@ export default async function ArticlesPage() {
   `);
 
   return (
-    <div className="max-w-7xl mx-auto p-4">
+    <main className="max-w-6xl mx-auto p-4">
       {/* Page Header */}
       <header className="mb-12 text-center">
         <Typography variant="h1" className="mb-4">
@@ -185,7 +185,7 @@ export default async function ArticlesPage() {
           </Typography>
         </div>
       )}
-    </div>
+    </main>
   );
 }
 
