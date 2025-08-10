@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Article } from "@/types/article";
 import { CustomPortableTextComponents } from "@/components/PortableTextComponents";
 import { CTAButton } from "@/components/CTAButton";
+import EmblaGallery from "@/components/EmblaGallery";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -170,39 +171,7 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Gallery */}
       {article.gallery && article.gallery.length > 0 && (
-        <div className="my-8">
-          <h3 className="text-2xl font-bold mb-4">Gallery</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {article.gallery.map((item, index) => (
-              <div key={index} className="space-y-2">
-                {item._type === "galleryImage" && item.image && (
-                  <div className="aspect-square relative rounded-lg overflow-hidden">
-                    <Image
-                      src={item.image.asset.url}
-                      alt={item.alt || item.caption || ""}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                {item._type === "galleryVideo" && item.url && (
-                  <div className="aspect-video">
-                    <iframe
-                      src={item.url}
-                      className="w-full h-full rounded-lg"
-                      allowFullScreen
-                    />
-                  </div>
-                )}
-                {item.caption && (
-                  <p className="text-sm text-secondary-foreground">
-                    {item.caption}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+        <EmblaGallery items={article.gallery} />
       )}
 
       {/* Conclusion */}

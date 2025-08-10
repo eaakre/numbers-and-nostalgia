@@ -89,23 +89,44 @@ export const CustomPortableTextComponents: PortableTextComponents = {
       );
     },
 
-    video: ({ value }) => (
-      <figure className="my-8">
-        <div className="aspect-video rounded-lg overflow-hidden">
-          <iframe
-            src={value.url}
-            className="w-full h-full"
-            allowFullScreen
-            title={value.caption || "Video embed"}
-          />
-        </div>
-        {value.caption && (
-          <figcaption className="text-center text-sm text-secondary-foreground mt-2 italic">
-            {value.caption}
-          </figcaption>
-        )}
-      </figure>
-    ),
+    video: ({ value }) => {
+      // Helper: convert normal YouTube URLs to embed URLs
+      const getYouTubeEmbedUrl = (url: string) => {
+        try {
+          const parsed = new URL(url);
+          if (parsed.hostname.includes("youtu.be")) {
+            // Short link: https://youtu.be/VIDEO_ID
+            return `https://www.youtube.com/embed/${parsed.pathname.slice(1)}`;
+          } else if (parsed.hostname.includes("youtube.com")) {
+            const videoId = parsed.searchParams.get("v");
+            return `https://www.youtube.com/embed/${videoId}`;
+          }
+          return url; // fallback
+        } catch {
+          return url;
+        }
+      };
+
+      const embedUrl = getYouTubeEmbedUrl(value.url);
+
+      return (
+        <figure className="my-8">
+          <div className="aspect-video rounded-lg overflow-hidden">
+            <iframe
+              src={embedUrl}
+              className="w-full h-full"
+              allowFullScreen
+              title={value.caption || "Video embed"}
+            />
+          </div>
+          {value.caption && (
+            <figcaption className="text-center text-sm text-secondary-foreground mt-2 italic">
+              {value.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
+    },
 
     cta: ({ value }) => (
       <div className="my-8 text-center">
