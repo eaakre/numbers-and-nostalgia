@@ -8,11 +8,11 @@ import { CustomPortableTextComponents } from "@/components/PortableTextComponent
 import { CTAButton } from "@/components/CTAButton";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export default async function ArticlePage({ params }: Props) {
-  const { slug } = await params; // ✅ destructure after awaiting
+  const { slug } = await params;
 
   const article: Article = await client.fetch(
     `
