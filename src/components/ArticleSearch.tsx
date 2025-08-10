@@ -21,26 +21,27 @@ export function ArticleSearch() {
       setIsLoading(true);
 
       try {
-        const searchResults: Article[] = await client.fetch(
-          `
-          *[_type == "article" && status == "published" && (
-            title match $query + "*" ||
-            intro match $query + "*" ||
-            pt::text(body) match $query + "*"
-          )] | order(_score desc) [0...5] {
-            _id,
-            title,
-            slug,
-            intro,
-            hero {
-              asset->{url},
-              alt
-            },
-            author->{name}
-          }
-        `,
-          { query }
+        const searchResults = await client.fetch<Article[]>(
+          /* groq */ `
+            *[_type == "article" && status == "published" && (
+              title match $searchTerm + "*" ||
+              intro match $searchTerm + "*" ||
+              pt::text(body) match $searchTerm + "*"
+            )] | order(_score desc) [0...5] {
+              _id,
+              title,
+              slug,
+              intro,
+              hero {
+                asset->{url},
+                alt
+              },
+              author->{name}
+            }
+          `,
+          { searchTerm: query }
         );
+
         setResults(searchResults);
       } catch (error) {
         console.error("Search error:", error);
