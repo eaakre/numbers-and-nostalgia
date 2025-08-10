@@ -18,6 +18,7 @@ export function NewsletterSignup() {
       setStatus("success");
       setEmail("");
     } catch (error) {
+      console.error(error);
       setStatus("error");
     }
   };

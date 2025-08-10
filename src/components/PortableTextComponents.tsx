@@ -63,19 +63,24 @@ export const CustomPortableTextComponents: PortableTextComponents = {
       );
     },
 
-    internalLink: ({ value }) => (
-      <div className="my-6 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-        <div className="flex items-center space-x-2">
-          <span className="text-blue-600">🔗</span>
-          {/* <Link
-            href={`/${value.reference._type}s/${value.reference.slug.current}`}
-            className="text-blue-600 hover:text-blue-800 font-medium"
-          >
-            {value.linkText || value.reference.title}
-          </Link> */}
+    internalLink: ({ value }) => {
+      if (!value?.reference?._type || !value?.reference?.slug?.current)
+        return null;
+
+      return (
+        <div className="my-6 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+          <div className="flex items-center space-x-2">
+            <span className="text-blue-600">🔗</span>
+            <Link
+              href={`/${value.reference._type}s/${value.reference.slug.current}`}
+              className="text-blue-600 hover:text-blue-800 font-medium"
+            >
+              {value.linkText || value.reference.title}
+            </Link>
+          </div>
         </div>
-      </div>
-    ),
+      );
+    },
 
     video: ({ value }) => (
       <figure className="my-8">

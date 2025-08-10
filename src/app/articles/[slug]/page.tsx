@@ -12,6 +12,8 @@ type Props = {
 };
 
 export default async function ArticlePage({ params }: Props) {
+  const { slug } = await params; // ✅ destructure after awaiting
+
   const article: Article = await client.fetch(
     `
     *[_type == "article" && slug.current == $slug && status == "published"][0] {
@@ -76,7 +78,7 @@ export default async function ArticlePage({ params }: Props) {
       showNewsletterSignup
     }
   `,
-    { slug: params.slug }
+    { slug }
   );
 
   if (!article) {
@@ -85,7 +87,7 @@ export default async function ArticlePage({ params }: Props) {
 
   console.log({ article });
   return (
-    <article className="max-w-4xl mx-auto px-4 py-8">
+    <article className="max-w-6xl mx-auto px-4 py-8">
       {/* Article Header */}
       <header className="mb-8">
         {/* <div className="mb-4">

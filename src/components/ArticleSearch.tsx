@@ -19,6 +19,7 @@ export function ArticleSearch() {
 
     const searchTimeout = setTimeout(async () => {
       setIsLoading(true);
+
       try {
         const searchResults: Article[] = await client.fetch(
           `
@@ -40,7 +41,6 @@ export function ArticleSearch() {
         `,
           { query }
         );
-
         setResults(searchResults);
       } catch (error) {
         console.error("Search error:", error);
@@ -86,11 +86,6 @@ export function ArticleSearch() {
                       />
                     </div>
                   )}
-
-                  <p className="text-sm text-gray-500">
-                    by {article.author?.name || "Unknown"}
-                  </p>
-
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium text-gray-900 truncate">
                       {article.title}
