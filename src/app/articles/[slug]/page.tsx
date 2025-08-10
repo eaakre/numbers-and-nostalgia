@@ -7,6 +7,7 @@ import { Article } from "@/types/article";
 import { CustomPortableTextComponents } from "@/components/PortableTextComponents";
 import { CTAButton } from "@/components/CTAButton";
 import EmblaGallery from "@/components/EmblaGallery";
+import { TableOfContents } from "@/components/TableOfContents";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -86,7 +87,7 @@ export default async function ArticlePage({ params }: Props) {
     notFound();
   }
 
-  console.log({ article });
+  console.log(article.body);
   return (
     <article className="max-w-6xl mx-auto p-4">
       {/* Article Header */}
@@ -146,6 +147,7 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       )}
 
+      <TableOfContents body={article.body} />
       {/* Article Body */}
       <div className="prose prose-lg max-w-none mb-8">
         <PortableText

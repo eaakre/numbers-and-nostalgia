@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "../lib/utils";
-import { PortableTextComponents } from "@portabletext/react";
+import {
+  PortableTextComponentProps,
+  PortableTextComponents,
+  PortableTextBlock,
+} from "@portabletext/react";
 import { CTAButton } from "./CTAButton";
 import { Typography } from "./ui/Typography";
+import { slugify, getNodeText } from "@/lib/slugify";
 
 export const CustomPortableTextComponents: PortableTextComponents = {
   types: {
@@ -138,29 +143,33 @@ export const CustomPortableTextComponents: PortableTextComponents = {
   },
 
   block: {
-    h1: ({ children }) => (
-      <Typography variant="h1" className="mt-12">
-        {children}
-      </Typography>
-    ),
-    h2: ({ children }) => (
-      <Typography variant="h2" className="mt-10">
-        {children}
-      </Typography>
-    ),
-    h3: ({ children }) => (
-      <Typography variant="h3" className="mt-8">
-        {children}
-      </Typography>
-    ),
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-gray-300 pl-6 my-6 italic text-lg text-secondary-foreground">
-        {children}
-      </blockquote>
-    ),
-    normal: ({ children }) => (
+    h1: (props: PortableTextComponentProps<PortableTextBlock>) => {
+      const id = slugify(getNodeText(props.children));
+      return (
+        <Typography variant="h1" id={id} className="mt-12 scroll-mt-20">
+          {props.children}
+        </Typography>
+      );
+    },
+    h2: (props: PortableTextComponentProps<PortableTextBlock>) => {
+      const id = slugify(getNodeText(props.children));
+      return (
+        <Typography variant="h2" id={id} className="mt-10 scroll-mt-20">
+          {props.children}
+        </Typography>
+      );
+    },
+    h3: (props: PortableTextComponentProps<PortableTextBlock>) => {
+      const id = slugify(getNodeText(props.children));
+      return (
+        <Typography variant="h3" id={id} className="mt-8 scroll-mt-20">
+          {props.children}
+        </Typography>
+      );
+    },
+    normal: (props: PortableTextComponentProps<PortableTextBlock>) => (
       <Typography variant="p" color="secondary" className="mt-4">
-        {children}
+        {props.children}
       </Typography>
     ),
   },

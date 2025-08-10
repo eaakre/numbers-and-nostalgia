@@ -1,5 +1,7 @@
+"use client";
 import { useState, useEffect } from "react";
-import { PortableTextBlock } from "@portabletext/types";
+import { PortableTextBlock, PortableTextSpan } from "@portabletext/types";
+import { slugify } from "@/lib/slugify"; // shared helper
 
 type TOCItem = {
   id: string;
@@ -12,22 +14,31 @@ export function TableOfContents({ body }: { body: PortableTextBlock[] }) {
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
-    // Extract headings from portable text
-    const headings = body
+    const headings: TOCItem[] = body
       .filter(
         (block) =>
           block._type === "block" &&
           ["h1", "h2", "h3"].includes(block.style || "")
       )
-      .map((block, index) => ({
-        id: `heading-${index}`,
-        text: block.children?.map((child) => child.text).join("") || "",
-        level: block.style === "h1" ? 1 : block.style === "h2" ? 2 : 3,
-      }));
+      .map((block) => {
+        const text =
+          block.children
+            ?.map((child) =>
+              (child as PortableTextSpan)?._type === "span"
+                ? (child as PortableTextSpan).text
+                : ""
+            )
+            .join("") || "";
+
+        return {
+          id: slugify(text),
+          text,
+          level: block.style === "h1" ? 1 : block.style === "h2" ? 2 : 3,
+        };
+      });
 
     setTocItems(headings);
 
-    // Intersection Observer for active heading
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -39,7 +50,6 @@ export function TableOfContents({ body }: { body: PortableTextBlock[] }) {
       { rootMargin: "-20% 0px -80% 0px" }
     );
 
-    // Observe headings
     const headingElements = document.querySelectorAll("h1, h2, h3");
     headingElements.forEach((el) => observer.observe(el));
 
@@ -49,7 +59,7 @@ export function TableOfContents({ body }: { body: PortableTextBlock[] }) {
   if (tocItems.length === 0) return null;
 
   return (
-    <nav className="sticky top-8 bg-white p-6 rounded-lg shadow-sm border">
+    <nav className="bg-white p-6 rounded-lg shadow-sm border">
       <h4 className="font-semibold text-gray-900 mb-4">Table of Contents</h4>
       <ul className="space-y-2">
         {tocItems.map((item) => (
