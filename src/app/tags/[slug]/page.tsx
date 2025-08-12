@@ -1,8 +1,6 @@
 import { client } from "@/lib/sanity.client";
 import { Article } from "@/types/article";
 import { Typography } from "@/components/ui/Typography";
-import Image from "next/image";
-import Link from "next/link";
 import { ArticleCard } from "@/app/articles/page";
 
 type TagPageProps = {
