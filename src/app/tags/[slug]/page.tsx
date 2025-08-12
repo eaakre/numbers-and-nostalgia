@@ -4,11 +4,11 @@ import { Typography } from "@/components/ui/Typography";
 import { ArticleCard } from "@/components/ArticleCard";
 
 type TagPageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export default async function TagPage({ params }: TagPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
 
   // Fetch articles with a matching tag slug
   const articles: Article[] = await client.fetch(
@@ -89,9 +89,10 @@ export default async function TagPage({ params }: TagPageProps) {
 
 // Optional: dynamic metadata
 export async function generateMetadata({ params }: TagPageProps) {
+  const { slug } = await params;
   const tag = await client.fetch(
     `*[_type == "tag" && slug.current == $slug][0]{ name }`,
-    { slug: params.slug }
+    { slug }
   );
 
   return {
