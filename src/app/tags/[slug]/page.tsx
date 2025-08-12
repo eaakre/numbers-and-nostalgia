@@ -1,7 +1,7 @@
 import { client } from "@/lib/sanity.client";
 import { Article } from "@/types/article";
 import { Typography } from "@/components/ui/Typography";
-import { ArticleCard } from "@/app/articles/page";
+import { ArticleCard } from "@/components/ArticleCard";
 
 type TagPageProps = {
   params: { slug: string };

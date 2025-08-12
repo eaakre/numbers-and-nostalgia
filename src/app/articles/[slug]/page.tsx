@@ -8,7 +8,7 @@ import { CustomPortableTextComponents } from "@/components/PortableTextComponent
 import { CTAButton } from "@/components/CTAButton";
 import EmblaGallery from "@/components/EmblaGallery";
 import { TableOfContents } from "@/components/TableOfContents";
-import { ArticleCard } from "../page";
+import { ArticleCard } from "@/components/ArticleCard";
 
 type Props = {
   params: Promise<{ slug: string }>;
