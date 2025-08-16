@@ -37,7 +37,7 @@ export function Navigation() {
         >
           <nav className="space-y-4 mt-8">
             <div className="flex flex-col divide-y divide-secondary-foreground gap-y-5">
-              <NavLinks />
+              <NavLinks onClick={() => setIsOpen(false)} />
               <ArticleSearch />
             </div>
           </nav>
@@ -47,12 +47,13 @@ export function Navigation() {
   );
 }
 
-function NavLinks() {
+function NavLinks({ onClick }: { onClick?: () => void }) {
   return (
     <>
       <Link
         href="/articles"
         className="flex w-full justify-between md:w-auto hover:text-primary-hover py-5 md:py-0"
+        onClick={onClick}
       >
         Articles
         <ChevronRight className="md:hidden" />
@@ -60,6 +61,7 @@ function NavLinks() {
       <Link
         href="/categories"
         className="flex w-full justify-between md:w-auto hover:text-primary-hover py-5 md:py-0"
+        onClick={onClick}
       >
         Categories
         <ChevronRight className="md:hidden" />
@@ -67,6 +69,7 @@ function NavLinks() {
       <Link
         href="/authors"
         className="flex w-full justify-between md:w-auto hover:text-primary-hover py-5 md:py-0"
+        onClick={onClick}
       >
         Authors
         <ChevronRight className="md:hidden" />
@@ -74,6 +77,7 @@ function NavLinks() {
       <Link
         href="/about"
         className="flex w-full justify-between md:w-auto hover:text-primary-hover py-5 md:py-0"
+        onClick={onClick}
       >
         About
         <ChevronRight className="md:hidden" />
