@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArticleSearch } from "./ArticleSearch";
 import { Menu, ChevronRight } from "lucide-react";
 import Drawer from "./ui/Drawer";
+import Image from "next/image";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,13 @@ export function Navigation() {
       <div className="max-w-6xl mx-auto px-4 border-b-2 flex items-center justify-between relative">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold py-8">
-          Numbers & Nostalgia
+          <Image
+            src="/images/numbers-and-nostalgia-logo.svg"
+            alt="Numbers & Nostalgia logo"
+            width={220}
+            height={64}
+            priority
+          />
         </Link>
 
         {/* Desktop Links */}

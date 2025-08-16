@@ -9,6 +9,9 @@
   --secondary-foreground: #42606b;
   --accent: #8f3535;
   --primary-hover: #000000;
+  --nn-primary: #0a2540; /* navy */
+  --nn-secondary: #c9b28c; /* aged parchment */
+  --nn-accent: #b33a3a; /* brick red */
 }
 
 @theme inline {
@@ -35,6 +38,9 @@
     --secondary-foreground: #f2ecdb;
     --accent: #8f3535;
     --primary-hover: #d8caa9;
+    --nn-primary: #e8ecf3;
+    --nn-secondary: #a89166;
+    --nn-accent: #e06b6b;
   }
 }
 

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Numbers &amp; Nostalgia — Square Icon</title>
+  <desc id="desc">Circular badge with baseball stitches and N&N monogram. Themeable via CSS variables.</desc>
+  <style>
+    :root, svg {
+      --nn-primary: var(--nn-primary-light, #0a2540);
+      --nn-secondary: var(--nn-secondary-light, #c9b28c);
+      --nn-accent: var(--nn-accent-light, #b33a3a);
+      --nn-bg: transparent;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root, svg {
+        --nn-primary: var(--nn-primary-dark, #e8ecf3);
+        --nn-secondary: var(--nn-secondary-dark, #a89166);
+        --nn-accent: var(--nn-accent-dark, #e06b6b);
+        --nn-bg: transparent;
+      }
+    }
+    .primary { fill: var(--nn-primary); stroke: var(--nn-primary); }
+    .secondary { fill: var(--nn-secondary); stroke: var(--nn-secondary); }
+    .accent { fill: var(--nn-accent); stroke: var(--nn-accent); }
+    .stroke3 { stroke-width: 12; }
+    .stroke5 { stroke-width: 20; }
+    .round { stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+
+  <rect width="100%" height="100%" fill="var(--nn-bg)"/>
+  <g transform="translate(400,400)">
+    <circle r="320" fill="none" class="secondary stroke5"/>
+    <circle r="280" fill="none" class="primary stroke3"/>
+
+    <!-- Crossed bats -->
+    <g transform="rotate(-10)">
+      <path d="M-190,80 C-110,60 -60,10 90,-210 110,-240 150,-246 176,-226 198,-209 202,-180 180,-154 26,44 -50,110 -150,146 Z"
+            class="accent" opacity="0.95"/>
+      <path d="M190,80 C110,60 60,10 -90,-210 -110,-240 -150,-246 -176,-226 -198,-209 -202,-180 -180,-154 -26,44 50,110 150,146 Z"
+            class="accent" opacity="0.95" transform="scale(-1,1)"/>
+    </g>
+
+    <circle r="140" fill="white"/>
+    <circle r="140" fill="none" class="primary" stroke-width="12"/>
+    <g class="accent round" fill="none" stroke-width="10">
+      <path d="M -95,-60 C -20,-20 -20,20 -95,60"/>
+      <path d="M 95,-60 C 20,-20 20,20 95,60"/>
+      <g transform="rotate(-20)">
+        <path d="M-70,-35 l-20,-20"/>
+        <path d="M-50,-22 l-20,-20"/>
+        <path d="M-30,-10 l-20,-20"/>
+        <path d="M70,35 l20,20"/>
+        <path d="M50,22 l20,20"/>
+        <path d="M30,10 l20,20"/>
+      </g>
+    </g>
+    <text x="0" y="12" text-anchor="middle" font-family="Alfa Slab One, Roboto Slab, serif" font-size="120" class="primary">N&amp;N</text>
+  </g>
+</svg>

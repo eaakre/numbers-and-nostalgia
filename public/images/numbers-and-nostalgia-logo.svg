@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="350" viewBox="0 0 1200 350" role="img" aria-labelledby="title desc">
+  <title id="title">Numbers &amp; Nostalgia — Vintage Baseball Logo</title>
+  <desc id="desc">A themeable vintage baseball wordmark with circular badge, crossed bats, and ribbon. Colors use CSS variables.</desc>
+  <style>
+    /* Default light theme (can be overridden by parent CSS variables) */
+    :root, svg {
+      --nn-primary: var(--nn-primary-light, #0a2540); /* navy */
+      --nn-secondary: var(--nn-secondary-light, #c9b28c); /* aged parchment */
+      --nn-accent: var(--nn-accent-light, #b33a3a); /* brick red */
+      --nn-bg: transparent;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root, svg {
+        --nn-primary: var(--nn-primary-dark, #e8ecf3);
+        --nn-secondary: var(--nn-secondary-dark, #a89166);
+        --nn-accent: var(--nn-accent-dark, #e06b6b);
+        --nn-bg: transparent;
+      }
+    }
+
+    .primary { fill: var(--nn-primary); stroke: var(--nn-primary); }
+    .secondary { fill: var(--nn-secondary); stroke: var(--nn-secondary); }
+    .accent { fill: var(--nn-accent); stroke: var(--nn-accent); }
+
+    text { dominant-baseline: middle; }
+    .wordmark-nums {
+      font-family: 'Alfa Slab One', 'Roboto Slab', serif;
+      font-size: 120px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      fill: var(--nn-primary);
+    }
+    .wordmark-nos {
+      font-family: 'Pacifico', 'Great Vibes', 'Dancing Script', cursive;
+      font-size: 110px;
+      fill: var(--nn-secondary);
+    }
+
+    .badge { filter: drop-shadow(0 2px 0 rgba(0,0,0,0.08)); }
+    .ribbon { filter: drop-shadow(0 2px 0 rgba(0,0,0,0.08)); }
+    .stroke2 { stroke-width: 2.5; }
+    .stroke3 { stroke-width: 3.5; }
+    .round { stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+
+  <!-- Left badge -->
+  <g class="badge" transform="translate(115,175)">
+    <!-- Outer circle -->
+    <circle r="95" class="secondary stroke3" fill="none"/>
+    <circle r="88" fill="none" class="primary stroke2"/>
+
+    <!-- Crossed bats -->
+    <g transform="rotate(-10)">
+      <path d="M-55,25 C-30,20 -10,0 30,-55 35,-62 45,-64 52,-59 58,-54 59,-45 53,-37 8,23 -15,45 -45,55 Z"
+            class="accent" opacity="0.95"/>
+      <path d="M55,25 C30,20 10,0 -30,-55 -35,-62 -45,-64 -52,-59 -58,-54 -59,-45 -53,-37 -8,23 15,45 45,55 Z"
+            class="accent" opacity="0.95" transform="scale(-1,1)"/>
+    </g>
+
+    <!-- Baseball -->
+    <circle r="42" fill="white" />
+    <circle r="42" class="primary" fill="none" stroke-width="3"/>
+    <!-- Stitches -->
+    <g class="accent stroke2 round" fill="none">
+      <path d="M -28,-18 C -5,-5 -5,5 -28,18"/>
+      <path d="M 28,-18 C 5,-5 5,5 28,18"/>
+      <!-- hash marks -->
+      <g transform="rotate(-20)">
+        <path d="M-20,-10 l-6,-6"/>
+        <path d="M-14,-6 l-6,-6"/>
+        <path d="M-8,-2 l-6,-6"/>
+        <path d="M20,10 l6,6"/>
+        <path d="M14,6 l6,6"/>
+        <path d="M8,2 l6,6"/>
+      </g>
+    </g>
+    <!-- Monogram -->
+    <text x="0" y="2" text-anchor="middle" font-family="Alfa Slab One, Roboto Slab, serif" font-size="38" class="primary">N&amp;N</text>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(250,90)">
+    <text x="0" y="80" class="wordmark-nums">NUMBERS</text>
+    <text x="0" y="200" class="wordmark-nos">Nostalgia</text>
+  </g>
+
+  <!-- Ribbon underline -->
+  <g class="ribbon" transform="translate(265,260)">
+    <path d="M0,0 H780 c22,0 22,28 0,28 H0 c-22,0-22-28 0-28z" class="secondary"/>
+    <path d="M-40,6 l40,-6 v40 l-40,-10 z" class="secondary"/>
+    <path d="M820,0 l40,6 v24 l-40,10 z" class="secondary"/>
+    <text x="390" y="17" text-anchor="middle" font-family="Roboto Slab, serif" font-size="24" class="primary">EST. 2025 • BASEBALL HISTORY &amp; STATS</text>
+  </g>
+</svg>
