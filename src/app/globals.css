@@ -5,8 +5,8 @@
   --foreground: #263442;
   --primary: #f7f2e6;
   --primary-foreground: #263442;
-  --secondary: #ede0b9;
-  --secondary-foreground: #203642;
+  --secondary: #f2ecdb;
+  --secondary-foreground: #42606b;
   --accent: #8f3535;
   --primary-hover: #000000;
 }
@@ -31,8 +31,8 @@
     --foreground: #f7f2e6;
     --primary: #263442;
     --primary-foreground: #f7f2e6;
-    --secondary: #203642;
-    --secondary-foreground: #ede0b9;
+    --secondary: #42606b;
+    --secondary-foreground: #f2ecdb;
     --accent: #8f3535;
     --primary-hover: #d8caa9;
   }

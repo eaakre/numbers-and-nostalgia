@@ -17,6 +17,7 @@ export type Category = {
   name: string;
   slug: { current: string };
   color?: string;
+  description?: string;
 };
 
 export type Tag = {
@@ -45,7 +46,7 @@ export type Article = {
   seoDescription?: string;
   slug: { current: string };
   intro?: string;
-  body: PortableTextBlock[];
+  body?: PortableTextBlock[];
   hero?: {
     asset: {
       url: string;

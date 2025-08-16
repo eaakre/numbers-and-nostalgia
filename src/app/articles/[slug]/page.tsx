@@ -81,7 +81,8 @@ export default async function ArticlePage({ params }: Props) {
       showNewsletterSignup
     }
   `,
-    { slug }
+    { slug },
+    { next: { revalidate: 900 } }
   );
 
   if (!article) {
@@ -148,15 +149,18 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       )}
 
-      <TableOfContents body={article.body} />
-
-      {/* Article Body */}
-      <div className="prose prose-lg max-w-none mb-8">
-        <PortableText
-          value={article.body}
-          components={CustomPortableTextComponents}
-        />
-      </div>
+      {article.body && (
+        <>
+          <TableOfContents body={article.body} />
+          {/* Article Body */}
+          <div className="prose prose-lg max-w-none mb-8">
+            <PortableText
+              value={article.body}
+              components={CustomPortableTextComponents}
+            />
+          </div>
+        </>
+      )}
 
       {/* Featured Quote */}
       {article.quote && (

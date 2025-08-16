@@ -6,7 +6,8 @@ import { ArticleCard } from "@/components/ArticleCard";
 
 export default async function ArticlesPage() {
   // Fetch all published articles
-  const articles: Article[] = await client.fetch(`
+  const articles: Article[] = await client.fetch(
+    `
     *[_type == "article" && status == "published"] | order(publishedAt desc) {
       _id,
       title,
@@ -36,8 +37,10 @@ export default async function ArticlesPage() {
         slug
       },
       publishedAt
-    }
-  `);
+    }`,
+    {},
+    { next: { revalidate: 900 } }
+  );
 
   return (
     <main className="max-w-6xl mx-auto p-4">

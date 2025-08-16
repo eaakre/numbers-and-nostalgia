@@ -1,20 +1,34 @@
 import { client } from "@/lib/sanity.client";
-import { Article } from "@/types/article";
+import { Article, Category } from "@/types/article";
 import { Typography } from "@/components/ui/Typography";
 import { ArticleCard } from "@/components/ArticleCard";
+import { notFound } from "next/navigation";
 
-type TagPageProps = {
+type CategoryPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export default async function TagPage({ params }: TagPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
 
+  const category: Category | null = await client.fetch(
+    `*[_type == "category" && slug.current == $slug][0]{
+      _id,
+      name,
+      description
+    }`,
+    { slug },
+    { next: { revalidate: 60 } }
+  );
+
+  if (!category) {
+    notFound();
+  }
   // Fetch articles with a matching tag slug
   const articles: Article[] = await client.fetch(
     `
-    *[_type == "article" && status == "published" && "${slug}" in tags[]->slug.current] 
-      | order(publishedAt desc) {
+    *[_type == "article" && status == "published" && category->slug.current == $slug] 
+      | order(publishedAt desc){
       _id,
       title,
       seoTitle,
@@ -49,39 +63,22 @@ export default async function TagPage({ params }: TagPageProps) {
     { next: { revalidate: 900 } }
   );
 
-  // Get the tag name for header (optional)
-  const tag = await client.fetch(
-    `*[_type == "tag" && slug.current == $slug][0]{ name }`,
-    { slug }
-  );
-
   return (
     <main className="max-w-6xl mx-auto p-4">
-      <header className="mb-12 text-center">
-        <Typography variant="h1" className="mb-4">
-          Articles tagged with “{tag?.name || slug}”
-        </Typography>
-        <Typography variant="lead" color="muted">
-          Explore all articles related to this topic
-        </Typography>
-        {articles.length > 0 && (
-          <Typography variant="small" color="muted" className="mt-4">
-            {articles.length} article{articles.length !== 1 ? "s" : ""} found
+      <header>
+        <Typography variant="h1">{category.name}</Typography>
+        {category.description && (
+          <Typography variant="p" className="text-gray-600 mt-2">
+            {category.description}
           </Typography>
         )}
       </header>
 
-      {articles.length > 0 ? (
+      {articles.length > 0 && (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <ArticleCard key={article._id} article={article} />
           ))}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <Typography variant="h3" color="muted">
-            No articles found for this tag
-          </Typography>
         </div>
       )}
     </main>
@@ -89,7 +86,7 @@ export default async function TagPage({ params }: TagPageProps) {
 }
 
 // Optional: dynamic metadata
-export async function generateMetadata({ params }: TagPageProps) {
+export async function generateMetadata({ params }: CategoryPageProps) {
   const { slug } = await params;
   const tag = await client.fetch(
     `*[_type == "tag" && slug.current == $slug][0]{ name }`,
