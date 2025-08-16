@@ -5,29 +5,31 @@ import { Article, Category } from "@/types/article";
 import { Typography } from "@/components/ui/Typography";
 
 export default async function HomePage() {
-  const articles: Article[] = await client.fetch(`
-    *[_type == "article" && status == "published"] | order(publishedAt desc) {
-      _id,
-      title,
+  const articles: Article[] = await client.fetch(
+    `*[_type == "article" && status == "published"] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    intro,
+    hero {
+      asset->{url},
+      alt
+    },
+    author->{
+      name,
+      slug
+    },
+    category->{
+      name,
       slug,
-      intro,
-      hero {
-        asset->{url},
-        alt
-      },
-      author->{
-        name,
-        slug
-      },
-      category->{
-        name,
-        slug,
-        color
-      },
-      publishedAt,
-      featured
-    }
-  `);
+      color
+    },
+    publishedAt,
+    featured
+  }`,
+    {},
+    { next: { revalidate: 60 } }
+  );
 
   const featuredArticles = articles.filter((a) => a.featured).slice(0, 2);
   const regularArticles = articles.filter((a) => !a.featured).slice(0, 6);
