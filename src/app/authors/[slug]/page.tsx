@@ -189,7 +189,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
             No published articles yet
           </Typography>
           <Typography variant="small" color="muted" className="mt-2">
-            This author hasn't published any articles yet.
+            This author has&apos;t ublished any articles yet.
           </Typography>
         </div>
       )}
