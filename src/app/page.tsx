@@ -126,7 +126,7 @@ function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
       href={`/articles/${article.slug.current}`}
-      className="group block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+      className="group block bg-secondary-foreground rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
     >
       {article.hero && (
         <div className="aspect-video relative overflow-hidden">
@@ -145,7 +145,7 @@ function ArticleCard({ article }: { article: Article }) {
         <Typography
           variant="h3"
           color="background"
-          className="font-bold mb-3 group-hover:text-secondary transition-colors"
+          className="font-bold mb-3 group-hover:text-primary transition-colors"
         >
           {article.title}
         </Typography>
