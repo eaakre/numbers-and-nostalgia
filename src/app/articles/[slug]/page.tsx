@@ -78,6 +78,7 @@ export default async function ArticlePage({ params }: Props) {
         author->{name}
       },
       ctaBlocks,
+      showTableOfContents,
       showNewsletterSignup
     }
   `,
