@@ -151,7 +151,10 @@ export default async function ArticlePage({ params }: Props) {
 
       {article.body && (
         <>
-          <TableOfContents body={article.body} />
+          {article.showTableOfContents && (
+            <TableOfContents body={article.body} />
+          )}
+
           {/* Article Body */}
           <div className="prose prose-lg max-w-none mb-8">
             <PortableText

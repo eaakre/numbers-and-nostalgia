@@ -23,7 +23,7 @@ export const categoryType = defineType({
       name: "description",
       title: "Description",
       type: "text",
-      validation: (Rule) => Rule.max(200),
+      validation: (Rule) => Rule.max(400),
     }),
     defineField({
       name: "color",

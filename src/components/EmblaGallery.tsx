@@ -20,6 +20,66 @@ interface EmblaGalleryProps {
   items: GalleryItem[];
 }
 
+function getYouTubeEmbedUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("youtu.be")) {
+      // Short link: https://youtu.be/VIDEO_ID
+      return `https://www.youtube.com/embed/${parsed.pathname.slice(1)}`;
+    } else if (parsed.hostname.includes("youtube.com")) {
+      const videoId = parsed.searchParams.get("v");
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+    return url; // fallback
+  } catch {
+    return url;
+  }
+}
+
+function GallerySlide({ item, index }: { item: GalleryItem; index: number }) {
+  if (item._type === "galleryImage" && item.image) {
+    return (
+      <div className="aspect-video relative bg-black/60">
+        <Image
+          src={item.image.asset.url}
+          alt={item.alt || item.caption || `Gallery image ${index + 1}`}
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 80vw, 80vw"
+          priority={index === 0}
+        />
+        {item.caption && (
+          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
+            <p className="text-sm">{item.caption}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (item._type === "galleryVideo" && item.url) {
+    const embedUrl = getYouTubeEmbedUrl(item.url);
+
+    return (
+      <div className="aspect-video relative bg-black/60">
+        <iframe
+          src={embedUrl}
+          className="w-full h-full rounded-lg"
+          allowFullScreen
+          title={item.caption || "Video embed"}
+        />
+        {item.caption && (
+          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
+            <p className="text-sm">{item.caption}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return null;
+}
+
 export default function EmblaGallery({ items }: EmblaGalleryProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
@@ -82,36 +142,7 @@ export default function EmblaGallery({ items }: EmblaGalleryProps) {
             <div className="flex">
               {items.map((item, index) => (
                 <div key={index} className="flex-[0_0_100%] min-w-0">
-                  <div className="aspect-video relative bg-black/60">
-                    {item._type === "galleryImage" && item.image ? (
-                      <Image
-                        src={item.image.asset.url}
-                        alt={
-                          item.alt ||
-                          item.caption ||
-                          `Gallery image ${index + 1}`
-                        }
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 768px) 80vw, 80vw"
-                        priority={index === 0}
-                      />
-                    ) : item._type === "galleryVideo" && item.url ? (
-                      <iframe
-                        src={item.url}
-                        className="w-full h-full"
-                        allowFullScreen
-                        title={item.caption || `Gallery video ${index + 1}`}
-                      />
-                    ) : null}
-
-                    {/* Caption overlay */}
-                    {item.caption && (
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
-                        <p className="text-sm">{item.caption}</p>
-                      </div>
-                    )}
-                  </div>
+                  <GallerySlide item={item} index={index} />
                 </div>
               ))}
             </div>

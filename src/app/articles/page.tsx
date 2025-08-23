@@ -84,7 +84,7 @@ export default async function ArticlesPage() {
 // Generate metadata for SEO
 export async function generateMetadata() {
   return {
-    title: "All Articles",
+    title: "All Articles | Numbers & Nostalgia",
     description: "Browse all our published articles, tutorials, and insights",
   };
 }

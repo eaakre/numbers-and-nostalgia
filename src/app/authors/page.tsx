@@ -59,41 +59,40 @@ export default async function AuthorsPage() {
       </header>
 
       {authors.length > 0 ? (
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="space-y-6">
           {authors.map((author) => (
-            <Link
-              key={author._id}
-              href={`/authors/${author.slug.current}`}
-              className="block bg-card rounded-lg p-6 border hover:shadow-lg transition-shadow"
-            >
-              <div className="text-center">
+            <li key={author._id}>
+              <Link
+                href={`/authors/${author.slug.current}`}
+                className="flex items-center gap-4 bg-card rounded-lg p-4 border hover:shadow-md transition-shadow"
+              >
                 {author.avatar?.asset?.url && (
-                  <div className="mb-4">
-                    <Image
-                      src={author.avatar.asset.url}
-                      alt={author.name}
-                      width={80}
-                      height={80}
-                      className="rounded-full mx-auto object-cover"
-                    />
-                  </div>
+                  <Image
+                    src={author.avatar.asset.url}
+                    alt={author.name}
+                    width={60}
+                    height={60}
+                    className="rounded-full object-cover"
+                  />
                 )}
-                <Typography variant="h3" className="mb-2">
-                  {author.name}
-                </Typography>
-                {author.bio && (
-                  <Typography variant="small" color="muted" className="mb-3">
-                    {author.bio}
+                <div>
+                  <Typography variant="h3" className="mb-1">
+                    {author.name}
                   </Typography>
-                )}
-                <Typography variant="small" color="muted">
-                  {author.articleCount} article
-                  {author.articleCount !== 1 ? "s" : ""}
-                </Typography>
-              </div>
-            </Link>
+                  {author.bio && (
+                    <Typography variant="small" color="muted" className="mb-2">
+                      {author.bio}
+                    </Typography>
+                  )}
+                  <Typography variant="small" color="muted">
+                    {author.articleCount} article
+                    {author.articleCount !== 1 ? "s" : ""}
+                  </Typography>
+                </div>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
         <div className="text-center py-12">
           <Typography variant="h3" color="muted">
